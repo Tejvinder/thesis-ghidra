@@ -20,6 +20,7 @@ parser = argparse.ArgumentParser(description = 'This script lifts a binary from 
 parser.add_argument('input_file', action='store')
 parser.add_argument('-out', action='store_true', help='emit intermediate files', default=False, dest='out')
 parser.add_argument('-opt', action='store', help='select optimization level 0-3', default=None, dest='opt')
+parser.add_argument('-o', action='store', help='LLVM IR output path', default=None, dest='output')
 parser.add_argument('-cfg', action='store_true', help='emit cfg', default=False, dest='cfg')
 results = parser.parse_args()
 
@@ -50,7 +51,10 @@ module = opt_verify.optimize(module, opt_level)
 
 # Verify
 module = opt_verify.verify(module)
-llfile = str(filename + '.ll')
+if results.output:
+    llfile = results.output
+else:
+    llfile = str(filename + '.ll')
 f = open(llfile, 'w')
 f.write(str(module))
 f.close()
