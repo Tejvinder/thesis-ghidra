@@ -11,9 +11,15 @@ opt_verify = importlib.import_module('src.lifting-opt-verify')
 ghidra_headless_loc = "/home/tej/buildsGhidra/ghidra_9.1.1_PUBLIC/support/analyzeHeadless"
 prj_dir = "/home/tej/GhidraProjects/"
 
+import sys
+import os
+
+# Locate path to Ghidra-to-LLVM directory.
+ghidra2llvm_dir = os.path.realpath(sys.path[0])
+
 # These shouldn't need to be changed
 prj_name = "lifting"
-xml_script = "./src/GhidraToXML.java"
+xml_script = os.path.join(ghidra2llvm_dir, "src/GhidraToXML.java")
 
 # Argument parsing
 parser = argparse.ArgumentParser(description = 'This script lifts a binary from executable to LLVM IR.')
